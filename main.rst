@@ -5,9 +5,13 @@
 
 .. include:: meta.rst
 
-====
-TODO_DOCUMENT_TITLE
-====
+=========================================
+Introduction à HTML5 - Animations et jeux
+=========================================
+
+------------------------------
+Notes personnelles du MOOC FUN
+------------------------------
 
 :Auteur: |AUTHORS|
 :Contact: |CONTACT|

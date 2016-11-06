@@ -1,11 +1,11 @@
-====
-TODO_DOCUMENT_TITLE
-====
+=========================================
+Introduction à HTML5 - Animations et jeux
+=========================================
 
-TODO_COPYRIGHT_NOTICE
+Copyright (c) 2016 Jérémie DECOCK (www.jdhp.org)
 
-* Read online: TODO_DOCUMENT_HTML_URL
-* PDF version: TODO_DOCUMENT_PDF_URL
-* Abstract on JDHP: TODO_DOCUMENT_WEB_SITE_URL
-* Source code: TODO_DOCUMENT_GITHUB_URL
+* Read online: http://www.jdhp.org/docs/notes_mooc_fun_html5/notes_mooc_fun_html5.html
+* PDF version: http://www.jdhp.org/dl/pdf/notes_mooc_fun_html5.pdf
+* Abstract on JDHP: http://www.jdhp.org/documentation_fr.html#notes_mooc_fun_html5
+* Source code: https://github.com/jdhp-docs/notes-mooc-fun-html5
 

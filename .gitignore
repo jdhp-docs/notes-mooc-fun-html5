@@ -4,7 +4,7 @@
 *.pdf
 *.odt
 ui/
-TODO_HTML_TMP_DIR/
+html_tmp/
 
 !figs/*.pdf
 
