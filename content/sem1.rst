@@ -134,7 +134,10 @@ Types d'éléments
 Positionnement
 ~~~~~~~~~~~~~~
 
-Positionnement relatif::
+Positionnement relatif
+++++++++++++++++++++++
+
+::
 
     position: relative;
     bottom:   5px;
@@ -144,7 +147,10 @@ Positionnement relatif::
 - le contenu suivant n'est pas affecté
 
 
-Positionnement flottant::
+Positionnement flottant
++++++++++++++++++++++++
+
+::
 
     float:  right;
     width:  100px;
@@ -154,7 +160,10 @@ Positionnement flottant::
 - le texte du conteneur est adapté pour contourner la boîte flottante
 
 
-Positionnement absolu::
+Positionnement absolu
++++++++++++++++++++++
+
+::
 
     position: absolute;
     top:      10px;
