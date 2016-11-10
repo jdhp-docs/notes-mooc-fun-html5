@@ -181,3 +181,23 @@ Souvent nécessaire pour éviter des bugs!
         ...
     }
 
+
+Vidéo 2: Outils de debug
+------------------------
+
+Outils intégrés aux navigateurs:
+- console d'erreur
+- debugger
+- inspecteur
+
+Console d'erreur Firefox:
+- outils / dev web / console web
+- affiche les erreurs, les avertissements et les messages console JS ``console.log("...");``
+- permet de filtrer les message en fonction de leur provenance: réseau, CSS, JS, ... (cliquer sur les boutons pour activer/désactiver les sources de message)
+- permet d'écrire interactivement du code (en bas) ; il y a aussi l'`ardoise JS` pour ça
+  
+  - exemple: taper le nom d'une variable dans la barre de commande du bas puis cliquer sur le nom de la variable pour afficher son contenu (contenu détaillé si c'est un objet, ...)
+
+Debugger:
+- définir les points d'arrêts
+- utiliser les "expressions espionnes" pour voir la valeur des variables, etc. (à droite)
