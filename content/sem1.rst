@@ -135,7 +135,7 @@ Positionnement
 ~~~~~~~~~~~~~~
 
 Positionnement relatif
-++++++++++++++++++++++
+**********************
 
 ::
 
@@ -148,7 +148,7 @@ Positionnement relatif
 
 
 Positionnement flottant
-+++++++++++++++++++++++
+***********************
 
 ::
 
@@ -161,7 +161,7 @@ Positionnement flottant
 
 
 Positionnement absolu
-+++++++++++++++++++++
+*********************
 
 ::
 
