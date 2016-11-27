@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="dessin" width="640" height="480"></canvas>
+
+        <script>
+            var cv = document.getElementById('dessin');
+            if(cv.getContext) {
+                var ctx = cv.getContext('2d');
+                ctx.fillStyle = "red";
+
+                ctx.rotate(Math.PI / 8);
+                ctx.fillRect(0, 0, 200, 50);
+            } else {
+                alert("Canvas non supporté par ce navigateur");
+            }
+        </script>
+    </body>
+</html>
