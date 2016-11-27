@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="dessin" width="640" height="480"></canvas>
+
+        <script>
+            // Canvas
+            var cv = document.getElementById('dessin');
+            if(cv.getContext) {
+                var ctx = cv.getContext('2d');
+
+                var i = 0;
+            } else {
+                alert("Canvas non supporté par ce navigateur");
+            }
+
+            // Fonction de dessin
+            function animer() {
+                i++;
+
+                ctx.globalCompositeOperation = 'xor';  // try 'lighter', 'destination-over' and 'xor'
+
+                // Sauvegarde le contexte
+                ctx.save();
+
+                // Efface tout le canvas
+                ctx.clearRect(0, 0, cv.width, cv.height);
+
+                // Translation du contexte et dessin du rectangle
+                ctx.translate(i, i);
+                ctx.fillStyle = "blue";
+                ctx.fillRect(-40, -40, 80, 80);
+
+                // Rotation puis translation du contexte et dessin du cercle
+                ctx.rotate(i/10);
+                ctx.translate(50, 0);
+
+                ctx.beginPath();
+                ctx.arc(0, 0, 10, 0, 2 * Math.PI, false);
+                ctx.fillStyle = "green";
+                ctx.fill();
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = "#003300";
+                ctx.stroke();
+
+                // Restaure le contexte
+                ctx.restore();
+            }
+
+            // Fonction d'arret
+            function stopper() {
+                clearInterval(inter);
+            }
+
+            // Timer
+            var inter = setInterval(animer, 100);  // appel la fonction "annimer()" toutes les 100ms
+            setTimeout(stopper, 20000);            // appel la fonction "stopper()" au bout de 20sec
+        </script>
+    </body>
+</html>
