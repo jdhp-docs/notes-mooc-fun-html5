@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="dessin" width="640" height="480"></canvas>
+
+        <script>
+            // Canvas
+            var cv = document.getElementById('dessin');
+            if(cv.getContext) {
+                var ctx = cv.getContext('2d');
+
+                ctx.translate(10, 10);
+
+                ctx.fillStyle = "blue";
+                ctx.fillRect(0, 0, 200, 20);
+            } else {
+                alert("Canvas non supporté par ce navigateur");
+            }
+
+            // Fonction de dessin
+            function translation() {
+                ctx.clearRect(0, 0, cv.width, cv.height);     // efface tout le canevas
+
+                ctx.translate(2, 2);
+
+                // Dessin
+                ctx.fillRect(0, 0, 200, 20);
+                
+                i++;
+
+                if(i>200) {
+                    clearInterval(inter);
+                }
+            }
+
+            // Incrément
+            var i = 0;
+
+            // Timer
+            var inter = setInterval(translation, 10);
+        </script>
+    </body>
+</html>
+

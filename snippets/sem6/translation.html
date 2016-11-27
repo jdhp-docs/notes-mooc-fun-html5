@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="dessin" width="640" height="480"></canvas>
+
+        <script>
+            var cv = document.getElementById('dessin');
+            if(cv.getContext) {
+                var ctx = cv.getContext('2d');
+
+                // black border
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = "black";
+                ctx.rect(0, 0, cv.width, cv.height);
+                ctx.stroke();         // applique le trait
+
+                // top left red point
+                ctx.fillStyle = "red";
+                ctx.fillRect(0, 0, 5, 5);
+
+                // bottom right red point
+                ctx.fillStyle = "red";
+                ctx.fillRect(cv.width-5, cv.height-5, cv.width, cv.height);
+
+                // blue rectangle
+                ctx.translate(cv.width/2, cv.height/2);
+
+                ctx.fillStyle = "blue";
+                ctx.fillRect(0, 0, 200, 20);
+
+                // (almost) centered red point
+                ctx.fillStyle = "red";
+                ctx.fillRect(0, 0, 5, 5);
+            } else {
+                alert("Canvas non supporté par ce navigateur");
+            }
+        </script>
+    </body>
+</html>
