@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <canvas id="dessin" width="640" height="480"></canvas>
+
+        <script>
+            // Coordonnées des cercles [pos_x, pos_y, rayon]
+            cercles = [[100, 100, 10], [150, 50, 20], [180, 150, 15]];
+
+            // Handler
+            function click_handler(e) {
+                // Position du click sur le document
+                var x_sourie_document = e.pageX;
+                var y_sourie_document = e.pageY;
+
+                // Position du canvas sur le document
+                var x_canvas = cv.offsetLeft;
+                var y_canvas = cv.offsetTop;
+
+                // Position du click sur le canvas
+                var x_sourie_canvas = x_sourie_document - x_canvas;
+                var y_sourie_canvas = y_sourie_document - y_canvas;
+
+                // Test si le click est dans un cercle
+                for(var i=0 ; i < cercles.length ; i++) {
+                    var rayon = cercles[i][2];
+
+                    if(Math.abs(cercles[i][0] - x_sourie_canvas) < rayon &&
+                       Math.abs(cercles[i][1] - y_sourie_canvas) < rayon) {
+                           alert("Click dans cercle");
+                           break;
+                    }
+                }
+            }
+
+            // Canvas
+            var cv = document.getElementById('dessin');
+            if(cv.getContext) {
+                var ctx = cv.getContext('2d');
+
+                // Dessine les balles
+                for(var i=0 ; i < cercles.length ; i++) {
+                    ctx.beginPath();
+                    ctx.arc(cercles[i][0], cercles[i][1], cercles[i][2], 0, 2 * Math.PI, false);
+                    ctx.fillStyle = "green";
+                    ctx.fill();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = "#003300";
+                    ctx.stroke();
+                }
+            } else {
+                alert("Canvas non supporté par ce navigateur");
+            }
+
+            // Gestionnaire
+            cv.addEventListener("click", click_handler, false);
+        </script>
+    </body>
+</html>
+
