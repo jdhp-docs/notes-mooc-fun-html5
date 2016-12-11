@@ -16,6 +16,8 @@ function afficheJeu() {
     $("div#bilan").hide();
 
     afficheConsigne();
+
+    tempsJeu = 0;
 }
 
 function afficheBilan() {
@@ -33,6 +35,59 @@ function afficheConsigne() {
     var taille = listeTailles[id_taille][1];
 
     $("div#jeu div#consigne").text("Cliquer sur les balles de couleur " + couleur + " et de taille " + taille);
+}
+
+function regles() {
+    if(ecranCourant == "jeu") {
+        animer();
+    }
+}
+
+// Fonction de dessin
+function animer() {
+    var canvas = document.getElementById('canvas');
+    if(canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+
+        tempsJeu++;
+
+        // Efface tout le canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Dessine les balles
+        dessineBalle(ctx, 0);
+        dessineBalle(ctx, 1);
+    } else {
+        alert("Canvas non supporté par ce navigateur");
+    }
+}
+
+function dessineBalle(ctx, id_balle) {
+    // Sauvegarde le contexte
+    ctx.save();
+
+    id_couleur = listeBalles[id_balle][1];
+    id_taille =  listeBalles[id_balle][2];
+    position_x = listeBalles[id_balle][3];
+    vitesse =    listeBalles[id_balle][4];
+
+    couleur = listeCouleurs[id_couleur][1];
+    rayon = listeTailles[id_taille][0];
+
+    // Debug
+    console.log("Balle " + id_balle + " position:" + position_x + " rayon:" + rayon + " couleur:" + couleur + " vitesse:" + vitesse);
+
+    // Translation du contexte
+    ctx.translate(position_x, tempsJeu * vitesse);
+
+    // Dessine la balle
+    ctx.beginPath();
+    ctx.arc(0, 0, rayon, 0, 2 * Math.PI, false);
+    ctx.fillStyle = couleur;
+    ctx.fill();
+
+    // Restaure le contexte
+    ctx.restore();
 }
 
 function init() {
@@ -65,12 +120,12 @@ function init() {
                     [1, 0],
                     [1, 2]];
 
-    // id niveau, id couleur, id taille
-    listeBalles = [[0, 0, 0],
-                   [0, 1, 1],
-                   [0, 2, 2],
-                   [1, 2, 2],
-                   [1, 1, 0]];
+    // id niveau, id couleur, id taille, position x, vitesse
+    listeBalles = [[0, 0, 0, 100, 2],
+                   [0, 1, 1,  50, 1],
+                   [0, 2, 2,  20, 1],
+                   [1, 2, 2, 150, 1],
+                   [1, 1, 0, 200, 1]];
 
     // rayon, label
     listeTailles = [[ 5, "petite"],
@@ -84,13 +139,17 @@ function init() {
  
     // VARIABLES //////////////////////////////////////////////////////////////
     
-    tempsJeu = 10;
+    tempsJeu = 0;
     niveauCourant = 0;
     ecranCourant = "accueil";
     
     // GESTIONNAIRES //////////////////////////////////////////////////////////
+    
+    // ils sont directement définis dans les éléments "input" (boutons)...
 
     // RÈGLES /////////////////////////////////////////////////////////////////
+    
+    setInterval(regles, 100);  // appel la fonction "regles()" toutes les 100ms
     
     // LANCEMENT //////////////////////////////////////////////////////////////
     
