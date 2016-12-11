@@ -40,25 +40,20 @@ function afficheConsigne() {
 function regles() {
     if(ecranCourant == "jeu") {
         animer();
+        tempsJeu++;
     }
 }
 
 // Fonction de dessin
 function animer() {
-    var canvas = document.getElementById('canvas');
-    if(canvas.getContext) {
-        var ctx = canvas.getContext('2d');
+    // Efface tout le canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        tempsJeu++;
-
-        // Efface tout le canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Dessine les balles
-        dessineBalle(ctx, 0);
-        dessineBalle(ctx, 1);
-    } else {
-        alert("Canvas non supporté par ce navigateur");
+    // Dessine les balles
+    for(var ball_index=0 ; ball_index < listeBalles.length ; ball_index++) {
+        if(listeBalles[ball_index][0] == niveauCourant) {
+            dessineBalle(ctx, ball_index);
+        }
     }
 }
 
@@ -75,7 +70,7 @@ function dessineBalle(ctx, id_balle) {
     rayon = listeTailles[id_taille][0];
 
     // Debug
-    console.log("Balle " + id_balle + " position:" + position_x + " rayon:" + rayon + " couleur:" + couleur + " vitesse:" + vitesse);
+    //console.log("Balle " + id_balle + " position:" + position_x + " rayon:" + rayon + " couleur:" + couleur + " vitesse:" + vitesse);
 
     // Translation du contexte
     ctx.translate(position_x, tempsJeu * vitesse);
@@ -143,6 +138,13 @@ function init() {
     niveauCourant = 0;
     ecranCourant = "accueil";
     
+    var canvas = document.getElementById('canvas');
+    if(canvas.getContext) {
+        ctx = canvas.getContext('2d');
+    } else {
+        alert("Canvas non supporté par ce navigateur");
+    }
+
     // GESTIONNAIRES //////////////////////////////////////////////////////////
     
     // ils sont directement définis dans les éléments "input" (boutons)...
