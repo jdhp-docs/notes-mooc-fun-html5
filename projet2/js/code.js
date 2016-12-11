@@ -46,13 +46,18 @@ function regles() {
 
 // Fonction de dessin
 function animer() {
-    // Efface tout le canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(tempsJeu > 100) {
+        afficheBilan();
+    } else {
+        // Efface tout le canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Dessine les balles
-    for(var ball_index=0 ; ball_index < listeBalles.length ; ball_index++) {
-        if(listeBalles[ball_index][0] == niveauCourant) {
-            dessineBalle(ctx, ball_index);
+        // Dessine les balles
+        for(var ball_index=0 ; ball_index < listeBalles.length ; ball_index++) {
+            if(listeBalles[ball_index][0] == niveauCourant &&     // la balle appartient au niveau courant
+               listeBalles[ball_index][6] == 1) {                 // la balle est visible
+                dessineBalle(ctx, ball_index);
+            }
         }
     }
 }
@@ -61,19 +66,25 @@ function dessineBalle(ctx, id_balle) {
     // Sauvegarde le contexte
     ctx.save();
 
-    id_couleur = listeBalles[id_balle][1];
-    id_taille =  listeBalles[id_balle][2];
-    position_x = listeBalles[id_balle][3];
-    vitesse =    listeBalles[id_balle][4];
+    var id_couleur = listeBalles[id_balle][1];
+    var id_taille =  listeBalles[id_balle][2];
+    var position_x = listeBalles[id_balle][3];
+    var vitesse =    listeBalles[id_balle][4];
+    var position_y = listeBalles[id_balle][5];
+    var visible =    listeBalles[id_balle][6];
 
-    couleur = listeCouleurs[id_couleur][1];
-    rayon = listeTailles[id_taille][0];
+    var couleur = listeCouleurs[id_couleur][1];
+    var rayon = listeTailles[id_taille][0];
+
+    // Met a jour la position y
+    position_y += vitesse;
+    listeBalles[id_balle][5] = position_y;
 
     // Debug
     //console.log("Balle " + id_balle + " position:" + position_x + " rayon:" + rayon + " couleur:" + couleur + " vitesse:" + vitesse);
 
     // Translation du contexte
-    ctx.translate(position_x, tempsJeu * vitesse);
+    ctx.translate(position_x, position_y);
 
     // Dessine la balle
     ctx.beginPath();
@@ -84,6 +95,44 @@ function dessineBalle(ctx, id_balle) {
     // Restaure le contexte
     ctx.restore();
 }
+
+
+// Handler
+function clicCanvas(e) {
+    // Position du click sur le document
+    var x_sourie_document = e.pageX;
+    var y_sourie_document = e.pageY;
+
+    // Position du canvas sur le document
+    var x_canvas = canvas.offsetLeft;
+    var y_canvas = canvas.offsetTop;
+
+    // Position du click sur le canvas
+    var x_sourie_canvas = x_sourie_document - x_canvas;
+    var y_sourie_canvas = y_sourie_document - y_canvas;
+
+    // Test si le click est dans un cercle
+    for(var ball_index=0 ; ball_index < listeBalles.length ; ball_index++) {
+        if(listeBalles[ball_index][0] == niveauCourant) {
+            var id_taille =  listeBalles[ball_index][2];
+            var position_x = listeBalles[ball_index][3];
+            var position_y = listeBalles[ball_index][5];
+            var visible =    listeBalles[ball_index][6];
+            var rayon = listeTailles[id_taille][0];
+
+            if(visible == 1 &&
+               Math.abs(position_x - x_sourie_canvas) < rayon &&
+               Math.abs(position_y - y_sourie_canvas) < rayon) {
+                // La balle devient invisible
+                listeBalles[ball_index][6] = 0;
+
+                // Stoppe la balle (vitesse nulle)
+                listeBalles[ball_index][4] = 0;
+            }
+        }
+    }
+}
+
 
 function init() {
     
@@ -115,12 +164,12 @@ function init() {
                     [1, 0],
                     [1, 2]];
 
-    // id niveau, id couleur, id taille, position x, vitesse
-    listeBalles = [[0, 0, 0, 100, 2],
-                   [0, 1, 1,  50, 1],
-                   [0, 2, 2,  20, 1],
-                   [1, 2, 2, 150, 1],
-                   [1, 1, 0, 200, 1]];
+    // id niveau, id couleur, id taille, position x, vitesse, position y, visible
+    listeBalles = [[0, 0, 0, 100, 2, 0, 1],
+                   [0, 1, 1,  50, 1, 0, 1],
+                   [0, 2, 2,  20, 1, 0, 1],
+                   [1, 2, 2, 150, 1, 0, 1],
+                   [1, 1, 0, 200, 1, 0, 1]];
 
     // rayon, label
     listeTailles = [[ 5, "petite"],
@@ -138,7 +187,7 @@ function init() {
     niveauCourant = 0;
     ecranCourant = "accueil";
     
-    var canvas = document.getElementById('canvas');
+    canvas = document.getElementById('canvas');
     if(canvas.getContext) {
         ctx = canvas.getContext('2d');
     } else {
@@ -147,7 +196,8 @@ function init() {
 
     // GESTIONNAIRES //////////////////////////////////////////////////////////
     
-    // ils sont directement définis dans les éléments "input" (boutons)...
+    canvas.addEventListener("click", clicCanvas, false);
+    // les autres sont directement définis dans les éléments "input" (boutons)...
 
     // RÈGLES /////////////////////////////////////////////////////////////////
     
