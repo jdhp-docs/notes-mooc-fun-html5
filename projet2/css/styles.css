@@ -1,0 +1,29 @@
+/* Style général */
+
+* {
+    font-family: Arial;
+    color: #000;
+    font-size: 12px;
+}
+
+/* Fond de page */
+ 
+body {
+    background: #ccc;
+}
+ 
+/* Style de l'écran d'accueil */
+
+div#accueil div#titre {
+    font-family: Arial;
+    color: red;
+    font-size: 16px;
+}
+
+/* Style du pied de page */
+
+footer {
+    font-family: Arial;
+    color: #000;
+    font-size: 12px;
+}
