@@ -15,6 +15,9 @@ function afficheJeu() {
     $("div#jeu").show();
     $("div#bilan").hide();
 
+    initDonnees();
+    initVariables();
+
     afficheConsigne();
 
     tempsJeu = 0;
@@ -25,6 +28,9 @@ function afficheBilan() {
     $("div#accueil").hide();
     $("div#jeu").hide();
     $("div#bilan").show();
+
+    // Affiche le score
+    $("div#bilan div#recap").text("Score: " + score);
 }
 
 function afficheConsigne() {
@@ -46,17 +52,31 @@ function regles() {
 
 // Fonction de dessin
 function animer() {
-    if(tempsJeu > 100) {
+    if(tempsJeu > tempsLimite) {
         afficheBilan();
     } else {
         // Efface tout le canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var nbBalleDessinees = 0;
 
         // Dessine les balles
         for(var ball_index=0 ; ball_index < listeBalles.length ; ball_index++) {
             if(listeBalles[ball_index][0] == niveauCourant &&     // la balle appartient au niveau courant
                listeBalles[ball_index][6] == 1) {                 // la balle est visible
                 dessineBalle(ctx, ball_index);
+                nbBalleDessinees++;
+            }
+        }
+
+        if(nbBalleDessinees == 0) {
+            if(niveauCourant == dernierNiveau) {
+                afficheBilan();
+            } else {
+                niveauCourant++;
             }
         }
     }
@@ -128,9 +148,43 @@ function clicCanvas(e) {
 
                 // Stoppe la balle (vitesse nulle)
                 listeBalles[ball_index][4] = 0;
+
+                // Incrémente le score
+                score++;
             }
         }
     }
+}
+
+
+function initVariables() {
+    tempsJeu = 0;
+    niveauCourant = 0;
+    score = 0;           // TODO
+}
+
+
+function initDonnees() {
+    // id couleur à sélectionner, id taille à sélectionner
+    listeNiveaux = [[0, 0],
+                    [1, 2]];
+
+    // id niveau, id couleur, id taille, position x, vitesse, position y, visible
+    listeBalles = [[0, 0, 0, 300, 3, 0, 1],
+                   [0, 1, 1, 150, 2, 0, 1],
+                   [0, 2, 2, 520, 1, 0, 1],
+                   [1, 2, 2, 150, 3, 0, 1],
+                   [1, 1, 0, 400, 1, 0, 1]];
+
+    // rayon, label
+    listeTailles = [[ 5, "petite"],
+                    [10, "moyenne"],
+                    [20, "grande"]];
+
+    // label, code couleur
+    listeCouleurs = [["rouge", "#ff0000"],
+                     ["vert",  "#008000"],
+                     ["bleu",  "#0000ff"]];
 }
 
 
@@ -159,33 +213,16 @@ function init() {
     
     // DONNÉES ////////////////////////////////////////////////////////////////
     
-    // id couleur à sélectionner, id taille à sélectionner
-    listeNiveaux = [[0, 0],
-                    [1, 0],
-                    [1, 2]];
-
-    // id niveau, id couleur, id taille, position x, vitesse, position y, visible
-    listeBalles = [[0, 0, 0, 100, 2, 0, 1],
-                   [0, 1, 1,  50, 1, 0, 1],
-                   [0, 2, 2,  20, 1, 0, 1],
-                   [1, 2, 2, 150, 1, 0, 1],
-                   [1, 1, 0, 200, 1, 0, 1]];
-
-    // rayon, label
-    listeTailles = [[ 5, "petite"],
-                    [10, "moyenne"],
-                    [20, "grande"]];
-
-    // label, code couleur
-    listeCouleurs = [["rouge", "#ff0000"],
-                     ["vert",  "#008000"],
-                     ["bleu",  "#0000ff"]];
+    initDonnees();
  
     // VARIABLES //////////////////////////////////////////////////////////////
-    
-    tempsJeu = 0;
-    niveauCourant = 0;
+
     ecranCourant = "accueil";
+    tempsLimite = 100; // en frames
+    deltaTemps = 100;  // en ms
+    dernierNiveau = 1;
+
+    initVariables();
     
     canvas = document.getElementById('canvas');
     if(canvas.getContext) {
@@ -201,7 +238,7 @@ function init() {
 
     // RÈGLES /////////////////////////////////////////////////////////////////
     
-    setInterval(regles, 100);  // appel la fonction "regles()" toutes les 100ms
+    setInterval(regles, deltaTemps);  // appel la fonction "regles()" toutes les ...ms
     
     // LANCEMENT //////////////////////////////////////////////////////////////
     
