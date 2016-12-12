@@ -194,7 +194,7 @@ function init() {
     
     // Écran d'accueil
     $("div#accueil div#titre").text("Clic sur les balles");
-    $("div#accueil div#image").html('<img src="./images/image.png" alt="Image du jeu">');
+    $("div#accueil div#image").html('<img src="./images/jeu.png" alt="Image du jeu">');
     $("div#accueil div#texte").text("Dans chacun des niveaux de jeu, cliquer sur les balles correspondant à la consigne affichée avant qu'elles touchent les bas du cadre !");
     $("div#accueil div#conteneurBoutonJeu").html('<input type="submit" name="boutonJeu" id="boutonJeu" value="Jouer" onclick="afficheJeu()" />');
     
